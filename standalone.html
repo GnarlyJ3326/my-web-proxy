@@ -2917,12 +2917,13 @@ async function fetchExternalContent(url, content, tabIndex) {
         `https://api.cors.lol/?url=${encodeURIComponent(url)}`,
         `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
         `https://api.codetabs.com/v1/tmp/?quest=${encodeURIComponent(url)}`,
-        `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
-        /*,
-                `https://corsproxy.io/?url=${encodeURIComponent(url)}`*/
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+        `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+        `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(url)}`
     ];
 
-    const timeout = 10000;
+    // Longer timeout for video content
+    const timeout = url.includes('youtube') || url.includes('video') ? 30000 : 15000;
 
     const key = await generateKey();
     const encryptedUrl = await encryptData(url, key);
