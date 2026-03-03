@@ -3077,10 +3077,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchExternalContent(url, content, tabIndex) {
     let proxies = [
-        `https://api.cors.lol/?url=${url}`,
+        `https://api.allorigins.win/raw?url=${url}`,
         `https://api.codetabs.com/v1/proxy?quest=${url}`,
         `https://api.codetabs.com/v1/tmp/?quest=${url}`,
-        `https://api.allorigins.win/raw?url=${url}`
+        `https://corsproxy.io/?url=${url}`,
+        `https://thingproxy.freeboard.io/fetch/${url}`
     ];
 
     // Remove cors.lol proxy for any URL containing 'google.com'
@@ -3088,7 +3089,7 @@ async function fetchExternalContent(url, content, tabIndex) {
         proxies = proxies.filter(proxy => !proxy.includes('cors.lol'));
     }
 
-    const timeout = 10000; // Timeout for axios requests
+    const timeout = url.includes('youtube') || url.includes('video') ? 30000 : 15000;
 
     async function fetchWithProxy(proxy) {
         try {
